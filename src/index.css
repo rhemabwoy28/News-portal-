@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Epilogue", sans-serif;
+  --font-body: "Newsreader", serif;
+  --font-label: "Work Sans", sans-serif;
+
+  --color-surface-bright: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-container-highest: #e5e2e1;
+  --color-surface-container-high: #ebe7e7;
+  --color-surface-container: #f0edec;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container-lowest: #ffffff;
+  
+  --color-primary: #ae131a;
+  --color-primary-container: #d2312f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #fff2f0;
+  
+  --color-secondary: #5f5e5e;
+  --color-on-secondary: #ffffff;
+  
+  --color-tertiary: #755000;
+  --color-tertiary-container: #ffdeac;
+  --color-on-tertiary-container: #281900;
+
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #5b403d;
+  
+  --color-outline: #8f6f6c;
+  --color-outline-variant: #e4beba;
+
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
+}
+
+@layer base {
+  :root {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark {
+    --color-surface-bright: #0c0b0b;
+    --color-surface-dim: #1a1919;
+    --color-surface-container-highest: #262424;
+    --color-surface-container-high: #312f2f;
+    --color-surface-container: #1c1b1b;
+    --color-surface-container-low: #141313;
+    --color-surface-container-lowest: #000000;
+
+    --color-on-surface: #f3f0ef;
+    --color-on-surface-variant: #e4beba;
+    
+    --color-outline: #5b403d;
+    --color-outline-variant: #312f2f;
+
+    --color-secondary: #a19f9e;
+  }
+
+  * {
+    border-radius: 0 !important;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom Drop Cap */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 5rem;
+  line-height: 0.8;
+  padding-top: 0.1em;
+  padding-right: 0.1em;
+  padding-left: 0.1em;
+  font-family: var(--font-headline);
+  font-weight: 900;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
