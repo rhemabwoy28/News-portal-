@@ -1,0 +1,97 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: articles
+// Document ID: auto-generated or slug
+// Fields:
+//   - category: string (required)
+//   - title: string (required)
+//   - author: string (required)
+//   - content: list of strings (required)
+//   - date: string (optional)
+//   - readTime: string (optional)
+//   - image: string (optional, URL)
+//   - caption: string (optional)
+//   - pullQuote: map (optional, {text, author})
+//   - keyProvisions: list (optional)
+//   - tags: list (optional)
+//
+// Collection: subscribers
+// Document ID: email hash or auto-gen
+// Fields:
+//   - email: string (required, email format)
+//   - subscribedAt: timestamp (required)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "felix234baah@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string &&
+        (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidArticle(data) {
+      return data.keys().hasAll(['category', 'title', 'author', 'content']) &&
+             data.category is string && data.category.size() < 50 &&
+             data.title is string && data.title.size() < 200 &&
+             data.author is string && data.author.size() < 100 &&
+             data.content is list && data.content.size() < 50 &&
+             (!('image' in data) || isValidUrl(data.image));
+    }
+
+    function isValidSubscriber(data) {
+      return data.keys().hasAll(['email', 'subscribedAt']) &&
+             isValidEmail(data.email) &&
+             data.subscribedAt is timestamp;
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // Articles: Publicly readable (explicitly allowed as it's a news site)
+    // but restricted for now per general instruction, let's allow read for auth users.
+    match /articles/{articleId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin() && isValidArticle(request.resource.data);
+    }
+
+    // Subscribers: Anyone can signup, only admin can view the list
+    match /subscribers/{subscriberId} {
+      allow read: if isAdmin();
+      allow create: if isValidSubscriber(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+    
+    // Default Deny
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "Article": {
+      "title": "Article",
+      "description": "A news article published in the GNN digital newspaper.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the article." },
+        "category": { "type": "string", "description": "The category of the news (e.g., POLITICS, ECONOMY)." },
+        "title": { "type": "string", "description": "The headline of the article." },
+        "author": { "type": "string", "description": "The name of the author or reporter." },
+        "date": { "type": "string", "description": "The publishing date string." },
+        "readTime": { "type": "string", "description": "Estimated reading time." },
+        "image": { "type": "string", "format": "url", "description": "Primary article image URL." },
+        "caption": { "type": "string", "description": "Caption for the primary image." },
+        "content": { "type": "array", "items": { "type": "string" }, "description": "Paragraphs of the article." },
+        "pullQuote": {
+          "type": "object",
+          "properties": {
+            "text": { "type": "string" },
+            "author": { "type": "string" }
+          }
+        },
+        "keyProvisions": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["category", "title", "author", "content"]
+    },
+    "Subscriber": {
+      "title": "Subscriber",
+      "description": "A user subscribed to the daily briefing newsletter.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "subscribedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "/articles/{articleId}": {
+      "schema": "Article",
+      "description": "Collection of all published news articles."
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": "Subscriber",
+      "description": "Collection of newsletter email subscribers."
+    }
+  }
+}
