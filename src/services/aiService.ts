@@ -1,8 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Initialize the Gemini API client
-// Note: process.env.GEMINI_API_KEY is provided by the environment
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiInstance: GoogleGenAI | null = null;
+
+function getAi() {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined in the environment.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+}
 
 export interface GeneratedArticle {
   title: string;
@@ -16,6 +25,7 @@ export interface GeneratedArticle {
  */
 export async function generateArticle(prompt: string): Promise<GeneratedArticle> {
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Write a professional news article for GNN (Ghana Network News) based on this topic: ${prompt}. 
