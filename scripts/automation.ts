@@ -109,7 +109,7 @@ async function harvest() {
   // Check if auto-publish is on
   let settings = { autoPublish: false };
   try {
-    settings = JSON.parse(fs.readFileSync("./data/settings.json", "utf8"));
+    settings = JSON.parse(fs.readFileSync("./src/data/settings.json", "utf8"));
   } catch (e) {}
 
   if (settings.autoPublish) {
@@ -119,11 +119,11 @@ async function harvest() {
   // Save to pending list
   let pending = [];
   try {
-    pending = JSON.parse(fs.readFileSync("./data/pending.json", "utf8"));
+    pending = JSON.parse(fs.readFileSync("./src/data/pending.json", "utf8"));
   } catch (e) {}
 
   pending.unshift(newArticle);
-  fs.writeFileSync("./data/pending.json", JSON.stringify(pending.slice(0, 50), null, 2));
+  fs.writeFileSync("./src/data/pending.json", JSON.stringify(pending.slice(0, 50), null, 2));
 
   // Facebook Posting
   if (newArticle.status === "published") {
