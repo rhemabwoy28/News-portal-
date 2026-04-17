@@ -128,7 +128,7 @@ const DispatchCard = ({ id, category, title, image, onClick }: { key?: React.Key
     >
       <article className="flex gap-4 w-full">
         <img 
-          src={image} 
+          src={image || null} 
           alt={title} 
           referrerPolicy="no-referrer"
           className="w-24 h-24 object-cover grayscale group-hover:grayscale-0 transition-all duration-500 shrink-0" 

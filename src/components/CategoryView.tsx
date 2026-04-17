@@ -45,7 +45,7 @@ export default function CategoryView({ category, articles, onClose, onArticleSel
               >
                 <div className="relative overflow-hidden mb-6 aspect-video">
                     <img 
-                        src={article.image} 
+                        src={article.image || null} 
                         alt={article.title} 
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110"

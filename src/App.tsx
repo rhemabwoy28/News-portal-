@@ -24,7 +24,22 @@ export default function App() {
   useEffect(() => {
     const loaded = getArticles();
     setArticles(loaded);
-    if (loaded.length > 0) setCurrentArticleId(loaded[0].id);
+    
+    // Simple URL path routing for deep links (e.g. from Facebook)
+    const path = window.location.pathname;
+    const articleMatch = path.match(/\/article\/(.+)/);
+    
+    if (articleMatch && articleMatch[1]) {
+      const id = articleMatch[1];
+      const target = loaded.find(a => a.id === id);
+      if (target) {
+        setCurrentArticleId(id);
+      } else if (loaded.length > 0) {
+        setCurrentArticleId(loaded[0].id);
+      }
+    } else if (loaded.length > 0) {
+      setCurrentArticleId(loaded[0].id);
+    }
   }, []);
 
   const currentArticle = useMemo(() => 

@@ -42,7 +42,7 @@ export default function Article({ data }: { data: ArticleData }) {
         <img 
           alt={data.title} 
           className="w-full h-auto aspect-video object-cover grayscale-[20%] contrast-125 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" 
-          src={data.image}
+          src={data.image || null}
           referrerPolicy="no-referrer"
         />
         <figcaption className="mt-4 font-label text-xs text-on-surface-variant tracking-wider uppercase border-l-4 border-primary pl-4 py-1 bg-surface-container-low">

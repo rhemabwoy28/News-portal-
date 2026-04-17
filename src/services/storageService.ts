@@ -1,5 +1,5 @@
 import { ArticleData } from "../types";
-import { ARTICLES as INITIAL_ARTICLES } from "../data";
+import PUBLISHED_ARTICLES from "../data/published.json";
 
 const ARTICLES_KEY = "gnn_articles_storage";
 const SUBS_KEY = "gnn_subscribers_storage";
@@ -7,8 +7,9 @@ const SUBS_KEY = "gnn_subscribers_storage";
 export const getArticles = (): ArticleData[] => {
   const stored = localStorage.getItem(ARTICLES_KEY);
   if (!stored) {
-    localStorage.setItem(ARTICLES_KEY, JSON.stringify(INITIAL_ARTICLES));
-    return INITIAL_ARTICLES;
+    // Standard site boot: use published articles from the bot/git
+    localStorage.setItem(ARTICLES_KEY, JSON.stringify(PUBLISHED_ARTICLES));
+    return PUBLISHED_ARTICLES as ArticleData[];
   }
   return JSON.parse(stored);
 };
