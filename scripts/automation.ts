@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 // Initialize Gemini
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GNN_BOT_KEY || process.env.GEMINI_API_KEY });
 
 const parser = new Parser();
 

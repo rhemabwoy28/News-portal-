@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import React from "react";
-import { Plus, LayoutDashboard, FileText, Users, LogOut, Save, X, Trash2, Menu, Copy, Check, Bot, Settings, CheckCircle, Clock, RefreshCw, Globe } from "lucide-react";
+import { Plus, LayoutDashboard, FileText, Users, LogOut, Save, X, Trash2, Menu, Copy, Check, Bot, Settings, CheckCircle, Clock, RefreshCw, Globe, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { getArticles, saveArticle, deleteArticle, getSubscribers } from "../services/storageService";
 import { ArticleData } from "../types";
 import { syncToGithub, GithubConfig } from "../services/githubService";
+import AIChat from "./AIChat";
 
 // Bots & Sync Imports
 import PENDING_DATA from "../data/pending.json";
@@ -14,7 +15,7 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
   const [articles, setArticles] = useState<ArticleData[]>([]);
   const [pendingArticles, setPendingArticles] = useState<ArticleData[]>(PENDING_DATA as ArticleData[]);
   const [subscribers, setSubscribers] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<"articles" | "subscribers" | "bot" | "settings">("articles");
+  const [activeTab, setActiveTab] = useState<"articles" | "subscribers" | "bot" | "settings" | "lab">("articles");
   const [activeArticleSubTab, setActiveArticleSubTab] = useState<"live" | "queue">("live");
   const [editingArticle, setEditingArticle] = useState<ArticleData | null>(null);
   
@@ -166,6 +167,13 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
           Articles
         </button>
         <button 
+          onClick={() => { setActiveTab("lab"); setIsSidebarOpen(false); }}
+          className={`w-full flex items-center gap-3 px-4 py-3 font-label text-xs uppercase tracking-widest font-bold transition-all ${activeTab === "lab" ? "bg-primary text-white" : "text-on-surface hover:bg-surface-container"}`}
+        >
+          <MessageSquare className="w-4 h-4" />
+          AI Neural Lab
+        </button>
+        <button 
           onClick={() => { setActiveTab("bot"); setIsSidebarOpen(false); }}
           className={`w-full flex items-center gap-3 px-4 py-3 font-label text-xs uppercase tracking-widest font-bold transition-all ${activeTab === "bot" ? "bg-primary text-white" : "text-on-surface hover:bg-surface-container"}`}
         >
@@ -235,6 +243,7 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
             <h1 className="font-headline font-black text-2xl md:text-4xl uppercase tracking-tight text-on-surface">
               {activeTab === "articles" ? "News Management" : 
                activeTab === "bot" ? "GNN Harvester" :
+               activeTab === "lab" ? "Neural Core Lab" :
                activeTab === "settings" ? "Engine Settings" : "Distribution List"}
             </h1>
           </div>
@@ -269,6 +278,12 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
               </div>
             ))}
           </div>
+
+          {activeTab === "lab" && (
+            <div className="max-w-4xl mx-auto">
+              <AIChat />
+            </div>
+          )}
 
           {activeTab === "articles" && (
             <div className="space-y-6">
