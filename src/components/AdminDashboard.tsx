@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import { Plus, LayoutDashboard, FileText, Users, LogOut, Save, X, Trash2, Menu, Sparkles, Loader2, Copy, Check } from "lucide-react";
+import { Plus, LayoutDashboard, FileText, Users, LogOut, Save, X, Trash2, Menu, Copy, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { getArticles, saveArticle, deleteArticle, getSubscribers } from "../services/storageService";
-import { generateArticle } from "../services/aiService";
 import { ArticleData } from "../types";
 
 export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () => void, onUpdate: () => void }) {
@@ -13,9 +12,6 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
   const [editingArticle, setEditingArticle] = useState<ArticleData | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [aiPrompt, setAiPrompt] = useState("");
-  const [isAiLoading, setIsAiLoading] = useState(false);
-  const [showAiWriter, setShowAiWriter] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const formRef = React.useRef<HTMLFormElement>(null);
@@ -30,33 +26,6 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
     { label: "Subscribers", value: subscribers.length, icon: Users },
     { label: "Active Reporters", value: "8", icon: LayoutDashboard },
   ];
-
-  const handleAiGenerate = async () => {
-    if (!aiPrompt.trim()) return;
-    setIsAiLoading(true);
-    try {
-      const result = await generateArticle(aiPrompt);
-      
-      // Update form values directly if possible or through state
-      if (formRef.current) {
-        const categoryInput = formRef.current.querySelector('[name="category"]') as HTMLInputElement;
-        const titleInput = formRef.current.querySelector('[name="title"]') as HTMLTextAreaElement;
-        const contentInput = formRef.current.querySelector('[name="content"]') as HTMLTextAreaElement;
-        const imageInput = formRef.current.querySelector('[name="image"]') as HTMLInputElement;
-
-        if (categoryInput) categoryInput.value = result.category;
-        if (titleInput) titleInput.value = result.title;
-        if (contentInput) contentInput.value = result.content.join("\n\n");
-        if (imageInput && !imageInput.value) imageInput.value = `https://picsum.photos/seed/${encodeURIComponent(result.category.toLowerCase())}/1200/800`;
-      }
-      setShowAiWriter(false);
-      setAiPrompt("");
-    } catch (error) {
-      alert("AI Generation failed. Please try again.");
-    } finally {
-      setIsAiLoading(false);
-    }
-  };
 
   const handleCopyForCMS = (article: ArticleData) => {
     const htmlString = `
@@ -317,19 +286,9 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
                     {isCreating ? "Draft New Dispatch" : "Edit Dispatch"}
                   </h2>
                   <div className="flex gap-2">
-                    {isCreating && (
-                      <button 
-                        type="button"
-                        onClick={() => setShowAiWriter(!showAiWriter)}
-                        className={`p-2 transition-all border ${showAiWriter ? 'bg-primary text-white border-primary' : 'text-primary border-primary/20 hover:bg-primary/5'}`}
-                        title="AI Writer Assistant"
-                      >
-                        <Sparkles className="w-6 h-6" />
-                      </button>
-                    )}
                     <button 
                       type="button"
-                      onClick={() => { setIsCreating(false); setEditingArticle(null); setShowAiWriter(false); }}
+                      onClick={() => { setIsCreating(false); setEditingArticle(null); }}
                       className="p-2 text-on-surface-variant hover:text-primary transition-all"
                     >
                       <X className="w-6 h-6" />
@@ -337,42 +296,7 @@ export default function AdminDashboard({ onLogout, onUpdate }: { onLogout: () =>
                   </div>
                 </div>
 
-                <AnimatePresence>
-                  {showAiWriter && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="bg-primary/5 border-b border-primary/20 overflow-hidden"
-                    >
-                      <div className="p-4 md:p-8 space-y-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Sparkles className="w-4 h-4 text-primary" />
-                          <h4 className="font-label text-xs uppercase tracking-widest font-black text-primary">GNN AI Reporter Assistant</h4>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <input 
-                            value={aiPrompt}
-                            onChange={(e) => setAiPrompt(e.target.value)}
-                            placeholder="What should the story be about? (e.g. 'New tech hub in Accra')" 
-                            className="flex-1 bg-white border border-primary/30 p-3 font-body text-sm focus:outline-none focus:border-primary transition-all"
-                          />
-                          <button 
-                            type="button"
-                            disabled={isAiLoading || !aiPrompt}
-                            onClick={handleAiGenerate}
-                            className="bg-primary text-white px-6 py-3 font-headline font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-primary-container disabled:opacity-50 transition-all"
-                          >
-                            {isAiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Write Story"}
-                          </button>
-                        </div>
-                        <p className="font-label text-[10px] text-on-surface-variant/60 uppercase italic">Powered by Gemini AI Grid • Professional Journalism Protocol</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-              <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8">
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-2">
                     <label className="font-label text-[10px] uppercase tracking-[0.2em] font-black text-on-surface-variant">Category</label>
