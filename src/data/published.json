@@ -1,9 +1,35 @@
 [
   {
-    "id": "1776496793575",
+    "id": "1776463373218",
+    "category": "BUSINESS",
+    "title": "Oil Marketing Companies Demand Suspension of Taxes, Claim They Are Absorbing Fuel Price Cuts",
+    "subject": "Chamber of Oil Marketing Companies (COMAC)",
+    "content": [
+      "The Chamber of Oil Marketing Companies (COMAC) has raised an alarm over the financial stability of its members, asserting that oil marketing companies (OMCs) are currently bearing the brunt of recent fuel price reductions. The Chamber firmly disputes the notion that the government is the primary entity absorbing these costs, highlighting a growing tension within the downstream petroleum sector regarding price management.",
+      "According to COMAC, the current pricing regime is unsustainable for private distributors who are struggling to maintain operations while fuel prices at the pump remain under significant pressure. The Chamber noted that while consumers may observe marginal relief at the pumps, the underlying operational costs and exchange rate fluctuations are being offset directly by the profit margins of the OMCs, leading to what they describe as a state of financial 'bleeding' within the industry.",
+      "In response to these mounting fiscal challenges, the Chamber is formally calling on the government to intervene by suspending specific statutory taxes and levies on petroleum products. They argue that such a policy shift is necessary to stabilize the industry and ensure that marketing companies can continue to provide essential services without facing total financial collapse.",
+      "The call for tax suspension comes at a time of heightened economic sensitivity, as stakeholders across the energy sector continue to debate the most effective strategies to manage fuel inflation. COMAC maintains that without immediate policy intervention or temporary tax relief, the long-term viability of many indigenous oil marketing firms remains at significant risk."
+    ],
+    "tags": [
+      "Petroleum Sector",
+      "Fuel Taxes",
+      "COMAC"
+    ],
+    "caption": "The Chamber of Oil Marketing Companies (COMAC) is calling for immediate government intervention to protect the downstream petroleum sector.",
+    "image": "https://picsum.photos/seed/ghana/1200/800",
+    "date": "April 17, 2026",
+    "readTime": "4 Min Read",
+    "author": "GNN Editorial Bot",
+    "status": "pending"
+  },
+  {
+    "id": "1776497098217",
     "category": "ECONOMY",
+    "author": "GNN Editorial Bot",
     "title": "From Mining Town to Global Impact: The Remarkable Rise of IMF Economist Valeria Mensah",
-    "subject": "Valeria Mensah",
+    "image": "https://picsum.photos/seed/ghana/1200/800",
+    "date": "April 18, 2026",
+    "readTime": "4 Min Read",
     "content": [
       "Valeria Mensah, a distinguished economist at the International Monetary Fund (IMF) in Washington, DC, continues to be a beacon of excellence for Ghana on the global stage. Growing up in a mining town, Mensah’s journey to one of the world's most influential financial institutions is a testament to her resilience and academic prowess.",
       "At the IMF, she leverages her deep-seated curiosity and analytical problem-solving skills to navigate the complexities of global economic development. Her work involves critical analysis and policy recommendations aimed at fostering fiscal stability and sustainable growth across diverse international markets.",
@@ -15,12 +41,7 @@
       "Valeria Mensah",
       "Economic Development"
     ],
-    "caption": "Economist Valeria Mensah representing Ghana at the International Monetary Fund in Washington, DC.",
-    "image": "https://picsum.photos/seed/ghana/1200/800",
-    "date": "April 18, 2026",
-    "readTime": "4 Min Read",
-    "author": "GNN Editorial Bot",
-    "status": "pending"
+    "caption": "Economist Valeria Mensah representing Ghana at the International Monetary Fund in Washington, DC."
   },
   {
     "id": "1776496906002",
